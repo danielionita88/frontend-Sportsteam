@@ -61,3 +61,27 @@ export const login=data=>{
 export const logout=()=>{
     return{type: 'LOGOUT'}
 }
+
+export const checkUser=token=>{
+    return (dispatch)=>{
+        const reqObj= {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        }
+        
+        fetch('http://localhost:3000/current_user', reqObj)
+        .then(resp => resp.json())
+        .then(data => {console.log(data)
+            if(data.error){
+                history.push('/login')
+            }
+            else {
+                dispatch(setUser(data))
+                localStorage.setItem('token',data.token)
+            }
+        })
+    }
+}

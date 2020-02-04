@@ -15,10 +15,18 @@ class Navbar extends React.Component{
 
     render(){
         return <div>
-            {this.props.user.id ? null: <Link to='/login'>Login</Link>}
-            {this.props.user.id ? null: <Link to='/signup'>SignUp</Link>}
-            {this.props.user.id ? <Link onClick={this.handleLogout} to=''>LogOut</Link> : null}
-            <Link to='/'>Home</Link>
+            {this.props.user.id ? 
+                <div>
+                    <Link onClick={this.handleLogout} to=''>LogOut</Link>
+                    <Link to='/'>Home</Link>
+                </div>
+            : 
+                <div>
+                    <Link to='/login'>Login</Link>
+                    <Link to='/signup'>SignUp</Link>
+                    <Link to='/'>Home</Link>
+                </div>
+            }
         </div>
     }
 }
