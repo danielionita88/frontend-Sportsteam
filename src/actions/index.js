@@ -22,7 +22,8 @@ export const createUser= data=>{
             }
             else {
                 dispatch(setUser(data))
-                history.push('/home')
+                localStorage.setItem('token',data.token)
+                history.push('/')
             }
         })
         .catch(err => console.log(err))
@@ -49,9 +50,14 @@ export const login=data=>{
             }
             else {
                 dispatch(setUser(data))
-                history.push('/home')
+                localStorage.setItem('token',data.token)
+                history.push('/')
             }
         })
         .catch(err => console.log(err))
     }
+}
+
+export const logout=()=>{
+    return{type: 'LOGOUT'}
 }
