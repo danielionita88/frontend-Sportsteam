@@ -1,31 +1,40 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-import history from '../history'
 import {logout} from '../actions/index'
+import { Menu } from 'semantic-ui-react'
+
 
 
 class Navbar extends React.Component{
 
     handleLogout=()=>{
         this.props.logout()
-        localStorage.removeItem('token')
-        history.push('/')
     }
 
     render(){
         return <div>
             {this.props.user.id ? 
-                <div>
-                    <Link onClick={this.handleLogout} to=''>LogOut</Link>
-                    <Link to='/'>Home</Link>
-                </div>
+                <Menu>
+                    <Menu.Item color='red' onClick={this.handleLogout}>
+                        Logout
+                    </Menu.Item>
+                    <Menu.Item>
+                        <Link to='/'>Home</Link>
+                    </Menu.Item>
+                </Menu>
             : 
-                <div>
-                    <Link to='/login'>Login</Link>
-                    <Link to='/signup'>SignUp</Link>
-                    <Link to='/'>Home</Link>
-                </div>
+                <Menu>
+                    <Menu.Item>
+                        <Link to='/login'>Login</Link>
+                    </Menu.Item>
+                    <Menu.Item>
+                        <Link to='/signup'>SignUp</Link>
+                    </Menu.Item>
+                    <Menu.Item>
+                        <Link to='/'>Home</Link>
+                    </Menu.Item>
+                </Menu>
             }
         </div>
     }

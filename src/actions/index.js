@@ -44,7 +44,6 @@ export const login=data=>{
         fetch('http://localhost:3000/login', reqObj)
         .then(resp => resp.json())
         .then(data => {
-            console.log(data)
             if(data.error){
                 alert(data.error)
             }
@@ -59,7 +58,11 @@ export const login=data=>{
 }
 
 export const logout=()=>{
-    return{type: 'LOGOUT'}
+    return (dispatch)=>{
+        dispatch({type: 'LOGOUT'})
+        history.push('/login')
+        localStorage.clear()
+    }
 }
 
 export const checkUser=token=>{
@@ -74,7 +77,7 @@ export const checkUser=token=>{
         
         fetch('http://localhost:3000/current_user', reqObj)
         .then(resp => resp.json())
-        .then(data => {console.log(data)
+        .then(data => {
             if(data.error){
                 history.push('/login')
             }

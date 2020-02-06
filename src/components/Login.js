@@ -1,6 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {login} from '../actions/index'
+import { Button, Form } from 'semantic-ui-react'
+
  
 class Login extends React.Component{
     state={
@@ -19,14 +21,18 @@ class Login extends React.Component{
         this.props.login(this.state)
     }
     render(){
-        return <div>
-            <form onSubmit={this.handleSubmit}>
-                <label>Email</label>
-                <input type='text' onChange={this.handleChange} name='email' value={this.state.email}/>
-                <label>Password</label>
-                <input type='password' onChange={this.handleChange} name='password' value={this.state.password}/>
-                <input type='submit'/>
-            </form>
+        return <div className='login-form'>
+            <Form onSubmit={this.handleSubmit}>
+                <Form.Field>
+                    <label>Email</label>
+                    <input type='text' onChange={this.handleChange} name='email' value={this.state.email}/>
+                </Form.Field>
+                <Form.Field>
+                    <label>Password</label>
+                    <input type='password' onChange={this.handleChange} name='password' value={this.state.password}/>
+                </Form.Field>
+                <Button type='submit'>Submit</Button>
+            </Form>
         </div>
     }
 }

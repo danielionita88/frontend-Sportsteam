@@ -9,6 +9,7 @@ class CreateEvent extends React.Component{
         name:'',
         location:'',
         date: new Date(),
+        time:'',
         details: ''
     }
 
@@ -16,15 +17,16 @@ class CreateEvent extends React.Component{
         // let day=date.getDate()
         // let month=date.getMonth()+1
         // let year=date.getFullYear()
-        // let hour=date.getHours()
-        // let minutes=()=>{
-        //     if(date.getMinutes()=== 0) {
-        //         return '00'
-        //     }
-        //     else return date.getMinutes()
-        // }
+        let hour=date.getHours()
+        let minutes=()=>{
+            if(date.getMinutes()=== 0) {
+                return '00'
+            }
+            else return date.getMinutes()
+        }
         this.setState({
-            date
+            date: date,
+            time: `${hour}:${minutes()}`
         })
     }
 
