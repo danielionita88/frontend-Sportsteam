@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {checkUser} from '../actions/index'
+import {checkUser} from '../actions/users'
 
 
 export default function WithAuth(Component){

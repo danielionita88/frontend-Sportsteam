@@ -1,13 +1,13 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {login} from '../actions/index'
+import {login} from '../actions/users'
 import { Button, Form } from 'semantic-ui-react'
 
  
 class Login extends React.Component{
     state={
-        email: '',
-        password: ''
+        email: 'danielionita88@yahoo.com',
+        password: '1234'
     }
 
     handleChange= e =>{

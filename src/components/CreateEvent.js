@@ -3,6 +3,9 @@ import WithAuth from './WithAuth'
 import {connect} from 'react-redux'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Button, Form } from 'semantic-ui-react'
+import {newEvent} from '../actions/events'
+
 
 class CreateEvent extends React.Component{
     state={
@@ -10,13 +13,10 @@ class CreateEvent extends React.Component{
         location:'',
         date: new Date(),
         time:'',
-        details: ''
+        details: '',
     }
 
     handleDateChange=date=>{
-        // let day=date.getDate()
-        // let month=date.getMonth()+1
-        // let year=date.getFullYear()
         let hour=date.getHours()
         let minutes=()=>{
             if(date.getMinutes()=== 0) {
@@ -36,40 +36,60 @@ class CreateEvent extends React.Component{
         })
     }
 
+    handleSubmit=e=>{
+        e.preventDefault()
+        this.props.newEvent({
+            name: this.state.name,
+            location: this.state.location,
+            date: this.state.date,
+            time: this.state.time,
+            details: this.state.details,
+            user_id: this.props.user.id
+        })
+    }
+
     render(){
         return <div>
-            <form>
-                <p>Name</p>
-                <input 
-                    onChange={this.handleInputChange} 
-                    type='text' 
-                    name='name' 
-                    value={this.state.name}
-                />
-                <p>Location</p>
-                <input 
-                    onChange={this.handleInputChange} 
-                    type='text' 
-                    name='location' 
-                    value={this.state.location}
-                />
-                <p>Select Date and Time:</p>
-                <DatePicker 
-                    selected={this.state.date} 
-                    onChange={this.handleDateChange}
-                    minDate={new Date()}
-                    showTimeSelect
-                />
-                
-                <p>Other Details:</p>
-                <textarea 
-                    onChange={this.handleInputChange} 
-                    rows='10'
-                    columns='30'
-                    name='details' 
-                    value={this.state.details}
-                />
-            </form>
+            <Form onSubmit={this.handleSubmit}>
+                <Form.Field>
+                    <label>Name</label>
+                    <input 
+                        onChange={this.handleInputChange} 
+                        type='text' 
+                        name='name' 
+                        value={this.state.name}
+                    />
+                </Form.Field>
+                <Form.Field>
+                    <label>Location</label>
+                    <input 
+                        onChange={this.handleInputChange} 
+                        type='text' 
+                        name='location' 
+                        value={this.state.location}
+                    />
+                </Form.Field>
+                <Form.Field>
+                    <label>Select Date and Time:</label>
+                    <DatePicker 
+                        selected={this.state.date} 
+                        onChange={this.handleDateChange}
+                        minDate={new Date()}
+                        showTimeSelect
+                    />
+                </Form.Field>
+                <Form.Field>
+                    <label>Other Details:</label>
+                    <textarea 
+                        onChange={this.handleInputChange} 
+                        rows='10'
+                        columns='30'
+                        name='details' 
+                        value={this.state.details}
+                    />
+                </Form.Field>
+                <Button type='submit'>Create</Button>
+            </Form>
         </div>
     }
 }
@@ -80,4 +100,10 @@ const mapStateToProps=state=>{
     }
 }
 
-export default connect(mapStateToProps)(WithAuth(CreateEvent))
+const mapDispatchToProps=dispatch=>{
+    return{
+        newEvent: data => dispatch(newEvent(data))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(WithAuth(CreateEvent))
