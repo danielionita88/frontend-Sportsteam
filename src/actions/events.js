@@ -38,6 +38,8 @@ export const getUsersEvents=userId=>{
     return (dispatch)=>{
         fetch(`http://localhost:3000/users/${userId}/events`)
         .then(resp => resp.json())
-        .then(data=>dispatch(addUsersEvents(data)))
+        .then(data=>{
+            dispatch(addUsersEvents(data))
+        })
     }
 }

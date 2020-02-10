@@ -5,7 +5,7 @@ const events = (state={usersEvents: []}, action)=>{
             usersEvents: [...state.usersEvents, action.event]}
         case 'ADD_USERS_EVENTS':
             return {...state,
-            usersEvents: [...state.usersEvents, action.events]}
+            usersEvents: action.events}
         default:
             return state
     }

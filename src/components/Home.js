@@ -1,20 +1,29 @@
 import React from 'react'
 import WithAuth from './WithAuth'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-import { Card, Icon, Image,Grid } from 'semantic-ui-react'
+import { Card, Icon, Image,Grid, Button, List} from 'semantic-ui-react'
 import {getUsersEvents} from '../actions/events'
 
 
 class Home extends React.Component{
 
-    componentDidMount(){
-        this.props.getUsersEvents(this.props.user.id)
+    componentDidUpdate(prevProps, prevState){
+        if(prevProps.user !== this.props.user){
+            this.props.getUsersEvents(this.props.user.id)
+        }
+    }
+
+    handleCreateBtn=()=>{
+        this.props.history.push('/create-event')
+    }
+
+    renderEvents = ()=>{
+       return this.props.events.map(e => <List.Item key={e.id} ><Icon name='calendar alternate'/> {e.name} - {e.date}</List.Item>)
     }
 
     render(){
         return <Grid>
-            <Grid.Column width={5}>
+            <Grid.Column width={4}>
                 <Card>
                     <Image src='/images/avatar/large/matthew.png' wrapped ui={false} />
                     <Card.Content>
@@ -29,10 +38,17 @@ class Home extends React.Component{
                         22 Friends
                         </a>
                     </Card.Content>
-                    <Link to="/create-event">Create New Event</Link>
                 </Card> 
+                <Button onClick={this.handleCreateBtn}>Create New Event</Button>
             </Grid.Column>
-            <Grid.Column>
+            <Grid.Column width={7}>
+
+            </Grid.Column>
+            <Grid.Column width={5}>
+                <p>Created Events</p>
+                <List>
+                    {this.renderEvents()}
+                </List>
 
             </Grid.Column>
         </Grid>
@@ -42,7 +58,7 @@ class Home extends React.Component{
 const mapStateToProps=state=>{
     return{
         user: state.user,
-        events: state.events
+        events: state.events.usersEvents
     }
 }
 
