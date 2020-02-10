@@ -1,4 +1,4 @@
-const events = (state={usersEvents: []}, action)=>{
+const events = (state={usersEvents: [], clickedEvent:[]}, action)=>{
     switch(action.type){
         case 'ADD_EVENT':
             return {...state,
@@ -6,6 +6,9 @@ const events = (state={usersEvents: []}, action)=>{
         case 'ADD_USERS_EVENTS':
             return {...state,
             usersEvents: action.events}
+        case 'SET_CLICKED_EVENT':
+            return {...state,
+            clickedEvent: action.event}
         default:
             return state
     }

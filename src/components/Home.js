@@ -1,11 +1,17 @@
 import React from 'react'
 import WithAuth from './WithAuth'
 import {connect} from 'react-redux'
-import { Card, Icon, Image,Grid, Button, List} from 'semantic-ui-react'
-import {getUsersEvents} from '../actions/events'
+import { Card, Icon, Image, Grid, Button, List,Segment} from 'semantic-ui-react'
+import {getUsersEvents, setClickedEvent} from '../actions/events'
+import EditEvent from './EditEvent'
+import ShowEvent from './ShowEvent'
 
 
 class Home extends React.Component{
+
+    state={
+        showEvent: false,
+    }
 
     componentDidUpdate(prevProps, prevState){
         if(prevProps.user !== this.props.user){
@@ -17,14 +23,28 @@ class Home extends React.Component{
         this.props.history.push('/create-event')
     }
 
+    clickedEvent=event=>{
+        this.props.setClickedEvent(event)
+        this.setState({
+            showEvent: true
+        })
+    }
+
     renderEvents = ()=>{
-       return this.props.events.map(e => <List.Item key={e.id} ><Icon name='calendar alternate'/> {e.name} - {e.date}</List.Item>)
+       return this.props.events.map(event => 
+            <List.Item 
+                onClick={()=>this.clickedEvent(event)} 
+                key={event.id} 
+            >
+                <Icon name='calendar alternate'/> {event.name} - {event.date}
+            </List.Item>
+        )
     }
 
     render(){
         return <Grid>
-            <Grid.Column width={4}>
-                <Card>
+            <Grid.Column style={{margin: '30px'}} width={4}>
+                <Card >
                     <Image src='/images/avatar/large/matthew.png' wrapped ui={false} />
                     <Card.Content>
                         <Card.Header>{this.props.user.first_name +' '+this.props.user.last_name}</Card.Header>
@@ -42,14 +62,16 @@ class Home extends React.Component{
                 <Button onClick={this.handleCreateBtn}>Create New Event</Button>
             </Grid.Column>
             <Grid.Column width={7}>
-
+                
             </Grid.Column>
-            <Grid.Column width={5}>
+            <Grid.Column width={4}>
                 <p>Created Events</p>
                 <List>
-                    {this.renderEvents()}
+                    <Segment>
+                        {this.renderEvents()}
+                    </Segment>
                 </List>
-
+                {this.state.showEvent ? <ShowEvent/> : null}
             </Grid.Column>
         </Grid>
     }
@@ -64,7 +86,8 @@ const mapStateToProps=state=>{
 
 const mapDispatchToProps=dispatch=>{
     return{
-        getUsersEvents: userId =>dispatch(getUsersEvents(userId))
+        getUsersEvents: userId =>dispatch(getUsersEvents(userId)),
+        setClickedEvent: event => dispatch(setClickedEvent(event))
     }
 }
 
