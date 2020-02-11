@@ -3,7 +3,6 @@ import WithAuth from './WithAuth'
 import {connect} from 'react-redux'
 import { Card, Icon, Image, Grid, Button, List,Segment} from 'semantic-ui-react'
 import {getUsersEvents, setClickedEvent} from '../actions/events'
-import EditEvent from './EditEvent'
 import ShowEvent from './ShowEvent'
 
 
@@ -25,9 +24,6 @@ class Home extends React.Component{
 
     clickedEvent=event=>{
         this.props.setClickedEvent(event)
-        this.setState({
-            showEvent: true
-        })
     }
 
     renderEvents = ()=>{
@@ -71,7 +67,7 @@ class Home extends React.Component{
                         {this.renderEvents()}
                     </Segment>
                 </List>
-                {this.state.showEvent ? <ShowEvent/> : null}
+                {this.props.showEvent ? <ShowEvent/> : null}
             </Grid.Column>
         </Grid>
     }
@@ -80,7 +76,8 @@ class Home extends React.Component{
 const mapStateToProps=state=>{
     return{
         user: state.user,
-        events: state.events.usersEvents
+        events: state.events.usersEvents,
+        showEvent: state.events.showEvent
     }
 }
 
