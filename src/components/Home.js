@@ -25,7 +25,7 @@ class Home extends React.Component{
 
     renderEvents = ()=>{
        return this.props.events.map(event => 
-            <List.Item 
+            <List.Item id='events' 
                 onClick={()=>this.clickedEvent(event)} 
                 key={event.id} 
             >
@@ -73,7 +73,7 @@ class Home extends React.Component{
 
 const mapStateToProps=state=>{
     return{
-        user: state.user,
+        user: state.user.currentUser,
         events: state.events.usersEvents,
         showEvent: state.events.showEvent,
         editEvent: state.events.editEvent

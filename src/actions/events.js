@@ -53,6 +53,10 @@ export const editEvent=()=>{
     return (dispatch) => dispatch({type: 'EDIT_EVENT'})
 }
 
+export const closeEdit=()=>{
+    return(dispatch) => dispatch({type: 'CLOSE_EDIT'})
+}
+
 const removeEvent = id =>{
     return {type: 'REMOVE_EVENT', id}
 }

@@ -1,8 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import { Button, Form } from 'semantic-ui-react'
+import { Button, Form, Segment, Divider } from 'semantic-ui-react'
 import DatePicker from "react-datepicker";
-import {updateEvent} from '../actions/events'
+import {updateEvent, closeEdit} from '../actions/events'
 
 
 class EditEvent extends React.Component{
@@ -49,8 +49,14 @@ class EditEvent extends React.Component{
         this.props.updateEvent(this.state, this.props.event.id)
     }
 
+    handleX=()=>{
+        this.props.closeEdit()
+    }
+
     render(){
-        return <div>
+        return <Segment className='edit-form'>
+            <Button onClick={this.handleX} size='small'>X</Button>
+            <Divider hidden/>
             <Form onSubmit={this.handleSubmit}>
                 <Form.Field>
                     <label>Name</label>
@@ -91,7 +97,7 @@ class EditEvent extends React.Component{
                 </Form.Field>
                 <Button type='submit'>Save</Button>
             </Form>
-        </div>
+        </Segment>
     }
 }
 
@@ -103,7 +109,8 @@ const mapStateToProps=state=>{
 
 const mapDispatchToProps=dispatch=>{
     return {
-        updateEvent: (event, eventId)=>dispatch(updateEvent(event, eventId))
+        updateEvent: (event, eventId)=>dispatch(updateEvent(event, eventId)),
+        closeEdit: ()=>dispatch(closeEdit())
     }
 }
 

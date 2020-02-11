@@ -43,7 +43,7 @@ class CreateEvent extends React.Component{
     }
 
     render(){
-        return <div>
+        return <div className='create-event'>
             <Form onSubmit={this.handleSubmit}>
                 <Form.Field>
                     <label>Name</label>
@@ -90,7 +90,7 @@ class CreateEvent extends React.Component{
 
 const mapStateToProps=state=>{
     return{
-        user: state.user
+        user: state.user.currentUser
     }
 }
 
