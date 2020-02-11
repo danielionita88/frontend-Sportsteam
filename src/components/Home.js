@@ -4,13 +4,10 @@ import {connect} from 'react-redux'
 import { Card, Icon, Image, Grid, Button, List,Segment} from 'semantic-ui-react'
 import {getUsersEvents, setClickedEvent} from '../actions/events'
 import ShowEvent from './ShowEvent'
+import EditEvent from './EditEvent'
 
 
 class Home extends React.Component{
-
-    state={
-        showEvent: false,
-    }
 
     componentDidUpdate(prevProps, prevState){
         if(prevProps.user !== this.props.user){
@@ -49,15 +46,16 @@ class Home extends React.Component{
                         </Card.Description>
                     </Card.Content>
                     <Card.Content extra>
-                        <a>
+                        <span className='friends-btn' >
                         <Icon name='user' />
                         22 Friends
-                        </a>
+                        </span>
                     </Card.Content>
                 </Card> 
                 <Button onClick={this.handleCreateBtn}>Create New Event</Button>
             </Grid.Column>
             <Grid.Column width={7}>
+                {this.props.editEvent ? <EditEvent/> : null}
                 
             </Grid.Column>
             <Grid.Column width={4}>
@@ -77,7 +75,8 @@ const mapStateToProps=state=>{
     return{
         user: state.user,
         events: state.events.usersEvents,
-        showEvent: state.events.showEvent
+        showEvent: state.events.showEvent,
+        editEvent: state.events.editEvent
     }
 }
 

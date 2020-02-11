@@ -14,6 +14,7 @@ class CreateEvent extends React.Component{
         date: new Date(),
         time:'',
         details: '',
+        user_id: this.props.user.id
     }
 
     handleDateChange=date=>{
@@ -38,14 +39,7 @@ class CreateEvent extends React.Component{
 
     handleSubmit=e=>{
         e.preventDefault()
-        this.props.newEvent({
-            name: this.state.name,
-            location: this.state.location,
-            date: this.state.date,
-            time: this.state.time,
-            details: this.state.details,
-            user_id: this.props.user.id
-        })
+        this.props.newEvent(this.state)
     }
 
     render(){

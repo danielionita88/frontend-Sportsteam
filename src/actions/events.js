@@ -49,6 +49,10 @@ export const setClickedEvent=event=>{
     return (dispatch) => dispatch({type: 'SET_CLICKED_EVENT', event})
 }
 
+export const editEvent=()=>{
+    return (dispatch) => dispatch({type: 'EDIT_EVENT'})
+}
+
 const removeEvent = id =>{
     return {type: 'REMOVE_EVENT', id}
 }
@@ -64,6 +68,29 @@ export const deleteEvent=id=>{
             else {
                 alert('Could not delete !')
             }
+        })
+    }
+}
+
+const replaceEvent=event=>{
+    return{type: 'REPLACE_EVENT', event}
+}
+
+export const updateEvent=(event, eventId)=>{
+    return (dispatch) => {
+        const reqObj = {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(event)
+        }
+
+        fetch(`http://localhost:3000/events/${eventId}`, reqObj)
+        .then(resp => resp.json())
+        .then((event) => {
+            dispatch(replaceEvent(event))
         })
     }
 }

@@ -4,3 +4,7 @@
   left: 100px;
   top:100px;
 }
+
+.friends-btn{
+  cursor: pointer;
+}
