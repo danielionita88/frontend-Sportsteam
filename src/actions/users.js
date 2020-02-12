@@ -88,3 +88,20 @@ export const checkUser=token=>{
         })
     }
 }
+
+export const revealFriends=()=>{
+    return (dispatch) => dispatch({type: 'REVEAL_FRIENDS'})
+}
+
+const searchResults=users=>{
+    return {type:'SEARCH_RESULTS', users}
+}
+export const searchFriends=name=>{
+    return (dispatch)=>{
+        fetch(`http://localhost:3000/users/search/${name}`)
+        .then(resp => resp.json())
+        .then(data => {
+            dispatch(searchResults(data))
+        })
+    }
+}
