@@ -5,6 +5,11 @@
   top:100px;
 }
 
+.seven.wide.column{
+  right: 50px;
+  top: 30px;
+}
+
 .friends-btn{
   cursor: pointer;
 }
@@ -15,6 +20,7 @@
 
 #search-card{
   width: 200px;
+  
 }
 
 .edit-form{

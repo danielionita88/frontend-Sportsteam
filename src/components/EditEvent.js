@@ -55,7 +55,7 @@ class EditEvent extends React.Component{
 
     render(){
         return <Segment className='edit-form'>
-            <Button onClick={this.handleX} size='small'>X</Button>
+            <Button onClick={this.handleX} size='mini'>X</Button>
             <Divider hidden/>
             <Form onSubmit={this.handleSubmit}>
                 <Form.Field>

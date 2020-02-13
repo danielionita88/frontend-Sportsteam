@@ -93,6 +93,10 @@ export const revealFriends=()=>{
     return (dispatch) => dispatch({type: 'REVEAL_FRIENDS'})
 }
 
+export const hideFriends=()=>{
+    return(dispatch) => dispatch({type: 'HIDE_FRIENDS'})
+}
+
 const searchResults=users=>{
     return {type:'SEARCH_RESULTS', users}
 }

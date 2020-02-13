@@ -13,11 +13,14 @@ const user = (state={
             return {...state,
             currentUser: []}
         case 'REVEAL_FRIENDS': 
-                return {...state,
-                showFriends: true}
+            return {...state,
+            showFriends: true}
         case 'SEARCH_RESULTS':
             return{...state,
-            searchResults: action.users}
+            searchResults: action.users.filter(user => user.id !== state.currentUser.id)}
+        case 'HIDE_FRIENDS':
+            return{...state,
+            showFriends: false}
         default:
             return state
     }
