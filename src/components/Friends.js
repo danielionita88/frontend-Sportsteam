@@ -1,7 +1,7 @@
 import React from 'react'
-import {Form, Input, Button, Divider, Card, Image, Grid, Segment} from 'semantic-ui-react'
+import {Form, Input, Button, Divider, Card, Image, Grid, Segment, Icon} from 'semantic-ui-react'
 import {connect} from 'react-redux'
-import {searchFriends, hideFriends} from '../actions/users'
+import {searchFriends, hideFriends, addFriend} from '../actions/network'
 
 class Friends extends React.Component{
 
@@ -24,15 +24,19 @@ class Friends extends React.Component{
         })
     }
 
+    handleAddFriend=receiverId=>{
+        this.props.addFriend(this.props.user.id, receiverId)
+    }
+
     renderResults=()=>{
-        return this.props.searchResults.map(user => <Grid.Column>
-                <Card key={user.id} id='search-card'>
+        return this.props.searchResults.map(user => <Grid.Column key={user.id}>
+                <Card id='search-card'>
                     <Image src='/images/avatar/large/matthew.png' wrapped ui={false} />
                     <Card.Content>
                         <Card.Header>{user.first_name + ' ' + user.last_name}</Card.Header>
                     </Card.Content>
                     <Card.Content extra>
-                        <Button>Add Friend</Button>
+                        <Button onClick={()=>this.handleAddFriend(user.id)}><Icon name='add user'/></Button>
                     </Card.Content>
                 </Card>
             </Grid.Column>
@@ -63,14 +67,16 @@ class Friends extends React.Component{
 
 const mapStateToProps=state=>{
     return{
-        searchResults: state.user.searchResults
+        searchResults: state.network.searchResults,
+        user: state.user.currentUser
     }
 }
 
 const mapDispatchToProps=dispatch=>{
     return{
         searchFriends: name => dispatch(searchFriends(name)),
-        hideFriends: ()=>dispatch(hideFriends())
+        hideFriends: ()=>dispatch(hideFriends()),
+        addFriend: (requestorId, receiverId)=>dispatch(addFriend(requestorId,receiverId))
     }
 }
 

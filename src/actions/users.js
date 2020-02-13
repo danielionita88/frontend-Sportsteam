@@ -112,3 +112,23 @@ export const searchFriends=name=>{
         })
     }
 }
+
+export const addFriend=(requestorId, receiverId)=>{
+    return (dispatch)=>{
+        const reqObj ={
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                requestor_id: requestorId,
+                receiver_id: receiverId
+            })
+        }
+
+        fetch('http://localhost:3000/friend_requests', reqObj)
+        .then(resp => resp.json())
+        .then(data => console.log(data))
+    }
+}

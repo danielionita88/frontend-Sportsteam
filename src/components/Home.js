@@ -3,7 +3,7 @@ import WithAuth from './WithAuth'
 import {connect} from 'react-redux'
 import { Card, Icon, Image, Grid, Button, List,Segment} from 'semantic-ui-react'
 import {getUsersEvents, setClickedEvent} from '../actions/events'
-import {revealFriends} from '../actions/users'
+import {revealFriends, getFriendRequests} from '../actions/network'
 import ShowEvent from './ShowEvent'
 import EditEvent from './EditEvent'
 import Friends from './Friends'
@@ -14,6 +14,7 @@ class Home extends React.Component{
     componentDidUpdate(prevProps, prevState){
         if(prevProps.user !== this.props.user){
             this.props.getUsersEvents(this.props.user.id)
+            this.props.getFriendRequests(this.props.user.id)
         }
     }
 
@@ -51,8 +52,9 @@ class Home extends React.Component{
                     <Card.Content extra>
                         <span onClick={this.handleFriends} className='friends-btn' >
                         <Icon name='user' />
-                        22 Friends
+                        22 Friends 
                         </span>
+                        <span>{this.props.friendRequests.length > 0 ? <Icon name='plus'/>:null}</span>
                     </Card.Content>
                 </Card> 
                 <Button onClick={this.handleCreateBtn}>Create New Event</Button>
@@ -63,12 +65,17 @@ class Home extends React.Component{
                 
             </Grid.Column>
             <Grid.Column width={4}>
+               {this.props.events.length > 0 ? 
+               <div>
                 <p>Created Events</p>
-                <List>
-                    <Segment>
-                        {this.renderEvents()}
-                    </Segment>
-                </List>
+                    <List>
+                        <Segment>
+                            {this.renderEvents()}
+                        </Segment>
+                    </List>
+                </div>
+                :
+                null}
                 {this.props.showEvent ? <ShowEvent/> : null}
             </Grid.Column>
         </Grid>
@@ -81,7 +88,8 @@ const mapStateToProps=state=>{
         events: state.events.usersEvents,
         showEvent: state.events.showEvent,
         editEvent: state.events.editEvent,
-        showFriends: state.user.showFriends
+        showFriends: state.network.showFriends,
+        friendRequests: state.network.friendRequests
     }
 }
 
@@ -89,7 +97,8 @@ const mapDispatchToProps=dispatch=>{
     return{
         getUsersEvents: userId =>dispatch(getUsersEvents(userId)),
         setClickedEvent: event => dispatch(setClickedEvent(event)),
-        revealFriends: ()=>dispatch(revealFriends())
+        revealFriends: ()=>dispatch(revealFriends()),
+        getFriendRequests: userId=>dispatch(getFriendRequests(userId))
     }
 }
 

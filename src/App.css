@@ -4,7 +4,11 @@
   left: 100px;
   top:100px;
 }
-
+.plus.icon{
+  color: red;
+  cursor: pointer;
+  margin-left:50px;
+}
 .seven.wide.column{
   right: 50px;
   top: 30px;
