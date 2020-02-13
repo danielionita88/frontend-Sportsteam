@@ -32,7 +32,8 @@ const events = (state={
                     }
                 case 'CLOSE_EDIT':
                     return {...state,
-                    editEvent: false}
+                    editEvent: false,
+                    showEvent: false}
                 default:
                     return state
             }

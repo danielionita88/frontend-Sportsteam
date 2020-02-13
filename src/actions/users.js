@@ -90,7 +90,10 @@ export const checkUser=token=>{
 }
 
 export const revealFriends=()=>{
-    return (dispatch) => dispatch({type: 'REVEAL_FRIENDS'})
+    return (dispatch) => {
+        dispatch({type: 'REVEAL_FRIENDS'})
+        dispatch({type: 'CLOSE_EDIT'})
+    }
 }
 
 export const hideFriends=()=>{

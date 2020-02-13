@@ -11,7 +11,11 @@ const user = (state={
                 currentUser: action.user}
         case 'LOGOUT':
             return {...state,
-            currentUser: []}
+            currentUser: [],
+            friends: [],
+            showFriends:false,
+            searchResults:[]
+        }
         case 'REVEAL_FRIENDS': 
             return {...state,
             showFriends: true}
@@ -20,7 +24,8 @@ const user = (state={
             searchResults: action.users.filter(user => user.id !== state.currentUser.id)}
         case 'HIDE_FRIENDS':
             return{...state,
-            showFriends: false}
+            showFriends: false,
+            searchResults: []}
         default:
             return state
     }
