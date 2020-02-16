@@ -51,10 +51,10 @@ class Home extends React.Component{
                     </Card.Content>
                     <Card.Content extra>
                         <span onClick={this.handleFriends} className='friends-btn' >
+                        <span>{this.props.friendRequests.length > 0 ? <Icon name='plus'/>:null}</span>
                         <Icon name='user' />
                         22 Friends 
                         </span>
-                        <span>{this.props.friendRequests.length > 0 ? <Icon name='plus'/>:null}</span>
                     </Card.Content>
                 </Card> 
                 <Button onClick={this.handleCreateBtn}>Create New Event</Button>

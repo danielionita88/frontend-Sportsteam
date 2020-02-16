@@ -56,3 +56,22 @@ export const getFriendRequests=userId=>{
     }
 }
 
+export const acceptFriend=(userId,friendId)=>{
+    return (dispatch)=>{
+        const reqObj ={
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                user_id: userId,
+                friend_id: friendId
+            })
+        }
+        fetch(`http://localhost:3000/friendships`, reqObj)
+        .then(resp => resp.json())
+        .then(data => console.log(data))
+    }
+}
+
