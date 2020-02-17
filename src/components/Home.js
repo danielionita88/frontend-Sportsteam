@@ -3,7 +3,7 @@ import WithAuth from './WithAuth'
 import {connect} from 'react-redux'
 import { Card, Icon, Image, Grid, Button, List,Segment} from 'semantic-ui-react'
 import {getUsersEvents, setClickedEvent} from '../actions/events'
-import {revealFriends, getFriendRequests} from '../actions/network'
+import {revealFriends, getFriendRequests, getFriends} from '../actions/network'
 import ShowEvent from './ShowEvent'
 import EditEvent from './EditEvent'
 import Friends from './Friends'
@@ -15,6 +15,7 @@ class Home extends React.Component{
         if(prevProps.user !== this.props.user){
             this.props.getUsersEvents(this.props.user.id)
             this.props.getFriendRequests(this.props.user.id)
+            this.props.getFriends(this.props.user.id)
         }
     }
 
@@ -53,7 +54,7 @@ class Home extends React.Component{
                         <span onClick={this.handleFriends} className='friends-btn' >
                         <span>{this.props.friendRequests.length > 0 ? <Icon name='plus'/>:null}</span>
                         <Icon name='user' />
-                        22 Friends 
+                        {this.props.friends.length} Friends 
                         </span>
                     </Card.Content>
                 </Card> 
@@ -88,6 +89,7 @@ const mapStateToProps=state=>{
         events: state.events.usersEvents,
         showEvent: state.events.showEvent,
         editEvent: state.events.editEvent,
+        friends: state.network.friends,
         showFriends: state.network.showFriends,
         friendRequests: state.network.friendRequests
     }
@@ -98,7 +100,8 @@ const mapDispatchToProps=dispatch=>{
         getUsersEvents: userId =>dispatch(getUsersEvents(userId)),
         setClickedEvent: event => dispatch(setClickedEvent(event)),
         revealFriends: ()=>dispatch(revealFriends()),
-        getFriendRequests: userId=>dispatch(getFriendRequests(userId))
+        getFriendRequests: userId=>dispatch(getFriendRequests(userId)),
+        getFriends: userId=>dispatch(getFriends(userId))
     }
 }
 

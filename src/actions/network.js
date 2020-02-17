@@ -22,7 +22,19 @@ export const searchFriends=name=>{
     }
 }
 
-export const addFriend=(requestorId, receiverId)=>{
+const setFriends=users=>{
+    return {type: 'SET_FRIENDS', users}
+}
+
+export const getFriends=userId=>{
+    return (dispatch)=>{
+        fetch(`http://localhost:3000/users/${userId}/friends`)
+        .then(resp => resp.json())
+        .then(data => dispatch(setFriends(data)))
+    }
+}
+
+export const requestFriendship=(requestorId, receiverId)=>{
     return (dispatch)=>{
         const reqObj ={
             method: 'POST',
@@ -56,6 +68,10 @@ export const getFriendRequests=userId=>{
     }
 }
 
+const addFriend=user=>{
+    return({type: 'ADD_FRIEND', user})
+}
+
 export const acceptFriend=(userId,friendId)=>{
     return (dispatch)=>{
         const reqObj ={
@@ -71,7 +87,13 @@ export const acceptFriend=(userId,friendId)=>{
         }
         fetch(`http://localhost:3000/friendships`, reqObj)
         .then(resp => resp.json())
-        .then(data => console.log(data))
+        .then(data => {
+            if (data.error) {
+                alert(data.error)
+            }
+            else
+            dispatch(addFriend(data))
+        })
     }
 }
 

@@ -2,11 +2,12 @@ const user = (state={currentUser: []}, action) => {
     switch(action.type){
         case 'LOGIN':
             return {...state,
-                currentUser: action.user}
+                currentUser: action.user
+            }
         case 'LOGOUT':
             return {...state,
-            currentUser: [],
-        }
+                currentUser: [],
+            }
         default:
             return state
     }

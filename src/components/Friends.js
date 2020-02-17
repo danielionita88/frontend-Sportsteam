@@ -1,7 +1,7 @@
 import React from 'react'
 import {Form, Input, Button, Divider, Card, Image, Grid, Segment, Icon} from 'semantic-ui-react'
 import {connect} from 'react-redux'
-import {searchFriends, hideFriends, addFriend, acceptFriend} from '../actions/network'
+import {searchFriends, hideFriends, requestFriendship, acceptFriend} from '../actions/network'
 
 class Friends extends React.Component{
 
@@ -25,7 +25,7 @@ class Friends extends React.Component{
     }
 
     handleAddFriend=receiverId=>{
-        this.props.addFriend(this.props.user.id, receiverId)
+        this.props.requestFriendship(this.props.user.id, receiverId)
     }
 
     renderResults=()=>{
@@ -100,7 +100,7 @@ const mapDispatchToProps=dispatch=>{
     return{
         searchFriends: name => dispatch(searchFriends(name)),
         hideFriends: ()=>dispatch(hideFriends()),
-        addFriend: (requestorId, receiverId)=>dispatch(addFriend(requestorId,receiverId)),
+        requestFriendship: (requestorId, receiverId)=>dispatch(requestFriendship(requestorId,receiverId)),
         acceptFriend: (userId,friendId)=> dispatch(acceptFriend(userId,friendId))
 
     }
