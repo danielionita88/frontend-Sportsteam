@@ -7,6 +7,8 @@ import Login from './components/Login'
 import Home from './components/Home'
 import history from './history'
 import CreateEvent from './components/CreateEvent'
+import Friends from './components/Friends'
+
 
 class App extends React.Component{
   
@@ -17,11 +19,12 @@ class App extends React.Component{
         <Route exact path='/signup' component={Signup}/>
         <Route exact path ='/login' component={Login}/>
         <Route exact path='/' component={Home}/>
+        <Route exact path='/friends' component={Friends}/>
         <Route exact path='/create-event' component={CreateEvent}/>
-
       </Router>
     );
   }
 }
+
 
 export default App;

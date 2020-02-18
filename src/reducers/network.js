@@ -1,21 +1,11 @@
 const network=(state={ friends: [], 
-    showFriends: false, 
     searchResults: [],
     friendRequests: []
     },action)=>{
         switch(action.type){
-            case 'REVEAL_FRIENDS': 
-                return {...state,
-                    showFriends: true
-                }
             case 'SEARCH_RESULTS':
                 return{...state,
                     searchResults: action.users
-                }
-            case 'HIDE_FRIENDS':
-                return{...state,
-                    showFriends: false,
-                    searchResults: []
                 }
             case 'ADD_FRIEND_REQUESTS':
                 return {...state,
@@ -24,7 +14,6 @@ const network=(state={ friends: [],
             case 'LOGOUT':
                 return {...state,
                     friends:[],
-                    showFriends: false,
                     searchResults: []
                 }
             case 'SET_FRIENDS':

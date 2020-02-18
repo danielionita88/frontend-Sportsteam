@@ -1,9 +1,3 @@
-export const revealFriends=()=>{
-    return (dispatch) => {
-        dispatch({type: 'REVEAL_FRIENDS'})
-        dispatch({type: 'CLOSE_EDIT'})
-    }
-}
 
 export const hideFriends=()=>{
     return(dispatch) => dispatch({type: 'HIDE_FRIENDS'})

@@ -1,12 +1,20 @@
 import React from 'react'
 import {Form, Input, Button, Divider, Card, Image, Grid, Segment, Icon} from 'semantic-ui-react'
 import {connect} from 'react-redux'
-import {searchFriends, hideFriends, requestFriendship, acceptFriend} from '../actions/network'
+import {searchFriends, requestFriendship, acceptFriend, getFriendRequests, getFriends} from '../actions/network'
+import WithAuth from './WithAuth'
 
 class Friends extends React.Component{
 
     state={
         searchTerm: ''
+    }
+
+    componentDidUpdate(prevProps){
+        if(prevProps.user !== this.props.user){
+            this.props.getFriends(this.props.user.id)
+            this.props.getFriendRequests(this.props.user.id)
+        }
     }
 
     handleChange=e=>{
@@ -28,8 +36,8 @@ class Friends extends React.Component{
         this.props.requestFriendship(this.props.user.id, receiverId)
     }
 
-    renderResults=()=>{
-        const results = this.props.searchResults.filter(user => user.id !== this.props.user.id)
+    renderUsers=(users)=>{
+        const results = users.filter(user => user.id !== this.props.user.id)
         return results.map(user => <Grid.Column key={user.id}>
                 <Card id='search-card'>
                     <Image src='/images/avatar/large/matthew.png' wrapped ui={false} />
@@ -37,54 +45,55 @@ class Friends extends React.Component{
                         <Card.Header>{user.first_name + ' ' + user.last_name}</Card.Header>
                     </Card.Content>
                     <Card.Content extra>
+                    {this.props.friends.includes(user) ? 
+                        <Button onClick={()=>this.handleRemoveFriend(user.id)}><Icon name='remove user'/>Remove</Button>
+                        :
                         <Button onClick={()=>this.handleAddFriend(user.id)}><Icon name='add user'/>Add</Button>
+                    }
                     </Card.Content>
                 </Card>
             </Grid.Column>
         )
     }
 
-    handleX=()=>{
-        this.props.hideFriends()
-    }
 
     handleAcceptFriend=friendId=>{
         this.props.acceptFriend(this.props.user.id, friendId)
     }
 
     renderRequests=()=>{
-        return this.props.friendRequests.map(user=><Grid.Column key={user.id}>
-            <Card id='search-card'>
+        return this.props.friendRequests.map(user=><Grid.Row key={user.id}>
                 <Image src='/images/avatar/large/matthew.png' wrapped ui={false} />
-                <Card.Content>
-                    <Card.Header>{user.first_name + ' ' + user.last_name}</Card.Header>
-                </Card.Content>
-                <Card.Content extra>
-                    <Button onClick={()=>this.handleAcceptFriend(user.id)}>Accept</Button>
-                </Card.Content>
-            </Card>
-        </Grid.Column> )
+                {user.first_name + " " + user.last_name}
+                <Button  size='mini' onClick={()=>this.handleAcceptFriend(user.id)}>Accept</Button>
+             
+        </Grid.Row> )
     }
 
     render(){
-        return <Segment>
-            <Button onClick={this.handleX} size='mini'>X</Button>
-            <Divider hidden/>
-            <Form onSubmit={this.handleSubmit}>
-                <Form.Input>
-                    <Input icon='search' onChange={this.handleChange} placeholder='Search Friends...' value={this.state.searchTerm} />
-                    <Button type='submit'>Search</Button>
-                </Form.Input>
-            </Form>
-            <Divider hidden/>
-            <Grid columns={3}>
-                {this.props.friendRequests.length > 0 ? this.renderRequests(): null}
+        return <div className='friends-component'>
+            <Grid columns={2}>
+                <Grid.Column width={11}>
+                    <Form style={{width: '400px'}}onSubmit={this.handleSubmit}>
+                        <Form.Input>
+                            <Input icon='search' onChange={this.handleChange} placeholder='Search Friends...' value={this.state.searchTerm} />
+                            <Button type='submit'>Search</Button>
+                        </Form.Input>
+                    </Form>
+                    <Divider hidden/>
+                    <Divider/>
+                    <Grid columns={3} >
+                        {this.props.searchResults.length > 0 ? this.renderUsers(this.props.searchResults) : this.renderUsers(this.props.friends)}
+                    </Grid>
+                </Grid.Column>
+                <Grid.Column width={3}>
+                    <h3>Friend Requests</h3>
+                    <Grid >
+                        {this.props.friendRequests.length > 0 ? this.renderRequests(): null}
+                    </Grid>
+                </Grid.Column>
             </Grid>
-            <Divider/>
-            <Grid columns={3} >
-                {this.props.searchResults.length > 0 ? this.renderResults() : null}
-            </Grid>
-        </Segment>
+        </div>
     }
 }
 
@@ -92,18 +101,19 @@ const mapStateToProps=state=>{
     return{
         searchResults: state.network.searchResults,
         user: state.user.currentUser,
-        friendRequests: state.network.friendRequests
+        friendRequests: state.network.friendRequests,
+        friends: state.network.friends
     }
 }
 
 const mapDispatchToProps=dispatch=>{
     return{
         searchFriends: name => dispatch(searchFriends(name)),
-        hideFriends: ()=>dispatch(hideFriends()),
         requestFriendship: (requestorId, receiverId)=>dispatch(requestFriendship(requestorId,receiverId)),
-        acceptFriend: (userId,friendId)=> dispatch(acceptFriend(userId,friendId))
-
+        acceptFriend: (userId,friendId)=> dispatch(acceptFriend(userId,friendId)),
+        getFriendRequests: userId=>dispatch(getFriendRequests(userId)),
+        getFriends: userId=> dispatch(getFriends(userId))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Friends)
+export default connect(mapStateToProps, mapDispatchToProps)(WithAuth(Friends))
