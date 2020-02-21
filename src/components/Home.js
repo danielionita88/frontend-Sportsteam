@@ -26,7 +26,8 @@ class Home extends React.Component{
     }
 
     renderEvents = ()=>{
-       return this.props.events.map(event => 
+       let events = this.props.events.sort((a,b)=> a.date > b.date ? 1 : -1)
+       return events.map(event => 
             <List.Item id='events' 
                 onClick={()=>this.clickedEvent(event)} 
                 key={event.id} 

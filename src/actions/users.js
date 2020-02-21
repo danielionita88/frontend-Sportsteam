@@ -4,6 +4,13 @@ const setUser=user=>{
 }
 
 export const createUser= data=>{
+    const info = {
+        first_name: data.first_name.toLowerCase(),
+        last_name: data.last_name.toLowerCase(),
+        email: data.email,
+        password: data.password,
+        password_confirmation: data.password_confirmation
+    }
     return (dispatch)=>{
         const reqObj={
             method: 'POST',
@@ -11,7 +18,7 @@ export const createUser= data=>{
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },
-            body: JSON.stringify({user: data})
+            body: JSON.stringify({user: info})
         }
 
         fetch('http://localhost:3000/signup', reqObj)

@@ -45,7 +45,7 @@ class Friends extends React.Component{
                         <Card.Header>{user.first_name + ' ' + user.last_name}</Card.Header>
                     </Card.Content>
                     <Card.Content extra>
-                    {this.props.friends.includes(user) ? 
+                    {this.props.friends.some(u => u.id === user.id) ? 
                         <Button onClick={()=>this.handleRemoveFriend(user.id)}><Icon name='remove user'/>Remove</Button>
                         :
                         <Button onClick={()=>this.handleAddFriend(user.id)}><Icon name='add user'/>Add</Button>

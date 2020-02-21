@@ -10,7 +10,7 @@ export const searchFriends=name=>{
     return (dispatch)=>{
         fetch(`http://localhost:3000/users/search/${name}`)
         .then(resp => resp.json())
-        .then(data => {
+        .then(data => {console.log(data)
             dispatch(searchResults(data))
         })
     }
