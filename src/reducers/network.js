@@ -25,6 +25,10 @@ const network=(state={ friends: [],
                     friends: [...state.friends, action.user],
                     friendRequests: state.friendRequests.filter(user => user.id !== action.user.id)
                 }
+            case 'REMOVE_FRIEND':
+                return{...state,
+                    friends: state.friends.filter(friend => friend.id !==action.friendId)
+                }
             default:
                 return state
         }

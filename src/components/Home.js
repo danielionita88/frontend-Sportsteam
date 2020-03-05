@@ -1,7 +1,7 @@
 import React from 'react'
 import WithAuth from './WithAuth'
 import {connect} from 'react-redux'
-import { Card, Icon, Image, Grid, Button, List,Segment} from 'semantic-ui-react'
+import { Card, Icon, Image, Grid, List,Segment} from 'semantic-ui-react'
 import {getUsersEvents, setClickedEvent} from '../actions/events'
 import {getFriendRequests} from '../actions/network'
 import ShowEvent from './ShowEvent'

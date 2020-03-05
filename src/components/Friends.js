@@ -1,7 +1,7 @@
 import React from 'react'
-import {Form, Input, Button, Divider, Card, Image, Grid, Segment, Icon} from 'semantic-ui-react'
+import {Form, Input, Button, Divider, Card, Image, Grid, Icon} from 'semantic-ui-react'
 import {connect} from 'react-redux'
-import {searchFriends, requestFriendship, acceptFriend, getFriendRequests, getFriends} from '../actions/network'
+import {searchFriends, requestFriendship, acceptFriend, getFriendRequests, getFriends, removeFriend} from '../actions/network'
 import WithAuth from './WithAuth'
 
 class Friends extends React.Component{
@@ -34,6 +34,10 @@ class Friends extends React.Component{
 
     handleAddFriend=receiverId=>{
         this.props.requestFriendship(this.props.user.id, receiverId)
+    }
+
+    handleRemoveFriend=friendId=>{console.log('aaaaaaaa')
+        this.props.removeFriend(this.props.user.id, friendId)
     }
 
     renderUsers=(users)=>{
@@ -112,7 +116,8 @@ const mapDispatchToProps=dispatch=>{
         requestFriendship: (requestorId, receiverId)=>dispatch(requestFriendship(requestorId,receiverId)),
         acceptFriend: (userId,friendId)=> dispatch(acceptFriend(userId,friendId)),
         getFriendRequests: userId=>dispatch(getFriendRequests(userId)),
-        getFriends: userId=> dispatch(getFriends(userId))
+        getFriends: userId=> dispatch(getFriends(userId)),
+        removeFriend: (userId,friendId) => dispatch(removeFriend(userId, friendId))
     }
 }
 
