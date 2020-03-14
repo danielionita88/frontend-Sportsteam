@@ -3,9 +3,10 @@ import WithAuth from './WithAuth'
 import {connect} from 'react-redux'
 import { Card, Icon, Image, Grid, List,Segment} from 'semantic-ui-react'
 import {getUsersEvents, setClickedEvent} from '../actions/events'
-import {getFriendRequests} from '../actions/network'
+import {getFriendRequests,getFriends} from '../actions/network'
 import ShowEvent from './ShowEvent'
 import EditEvent from './EditEvent'
+import ShowFriendsEvents from './ShowFriendsEvents'
 
 
 class Home extends React.Component{
@@ -14,6 +15,7 @@ class Home extends React.Component{
         if(prevProps.user !== this.props.user){
             this.props.getUsersEvents(this.props.user.id)
             this.props.getFriendRequests(this.props.user.id)
+            this.props.getFriends(this.props.user.id)
         }
     }
 
@@ -61,8 +63,7 @@ class Home extends React.Component{
                 </Card> 
             </Grid.Column>
             <Grid.Column width={7}>
-                {this.props.editEvent ? <EditEvent/> : null}
-                
+                {this.props.editEvent ? <EditEvent/> : <ShowFriendsEvents/>}
             </Grid.Column>
             <Grid.Column width={4}>
                {this.props.events.length > 0 ? 
@@ -95,9 +96,9 @@ const mapStateToProps=state=>{
 const mapDispatchToProps=dispatch=>{
     return{
         getUsersEvents: userId =>dispatch(getUsersEvents(userId)),
-        // getFriendsEvents: userId=>dispatch(getFriendsEvents(userId)),
         setClickedEvent: event => dispatch(setClickedEvent(event)),
         getFriendRequests: userId=>dispatch(getFriendRequests(userId)),
+        getFriends: userId=>dispatch(getFriends(userId))
     }
 }
 

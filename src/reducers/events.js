@@ -21,7 +21,7 @@ const events = (state={
                     }
                 case 'EDIT_EVENT':
                     return {...state,
-                        editEvent: true
+                        editEvent: true,
                     }
                 case 'REMOVE_EVENT':
                     return {...state,
@@ -32,12 +32,12 @@ const events = (state={
                     return {...state,
                         usersEvents: state.usersEvents.map(event => event.id === action.event.id ? action.event : event),
                         showEvent: false,
-                        editEvent: false
+                        editEvent: false,
                     }
                 case 'CLOSE_EDIT':
                     return {...state,
                         editEvent: false,
-                        showEvent: false
+                        showEvent: false,
                     }
                 default:
                     return state

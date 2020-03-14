@@ -24,7 +24,9 @@ export const getFriends=userId=>{
     return (dispatch)=>{
         fetch(`http://localhost:3000/users/${userId}/friends`)
         .then(resp => resp.json())
-        .then(data => dispatch(setFriends(data)))
+        .then(data => {
+            dispatch(setFriends(data))
+        })
     }
 }
 

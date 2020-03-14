@@ -48,7 +48,6 @@ export const getUsersEvents=userId=>{
 export const setClickedEvent=event=>{
     return (dispatch) => {
         dispatch({type: 'SET_CLICKED_EVENT', event})
-        dispatch({type: 'HIDE_FRIENDS'})
     }
 }
 
