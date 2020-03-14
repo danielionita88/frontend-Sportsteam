@@ -29,6 +29,10 @@ const network=(state={ friends: [],
                 return{...state,
                     friends: state.friends.filter(friend => friend.id !==action.friendId)
                 }
+            case 'SET_PENDING_FRIENDS':
+                return {...state,
+                    pendingFriends: action.users
+                }
             default:
                 return state
         }

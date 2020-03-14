@@ -88,7 +88,6 @@ const mapStateToProps=state=>{
         events: state.events.usersEvents,
         showEvent: state.events.showEvent,
         editEvent: state.events.editEvent,
-        friends: state.network.friends,
         friendRequests: state.network.friendRequests
     }
 }
@@ -96,6 +95,7 @@ const mapStateToProps=state=>{
 const mapDispatchToProps=dispatch=>{
     return{
         getUsersEvents: userId =>dispatch(getUsersEvents(userId)),
+        // getFriendsEvents: userId=>dispatch(getFriendsEvents(userId)),
         setClickedEvent: event => dispatch(setClickedEvent(event)),
         getFriendRequests: userId=>dispatch(getFriendRequests(userId)),
     }

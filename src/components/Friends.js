@@ -1,7 +1,7 @@
 import React from 'react'
 import {Form, Input, Button, Divider, Card, Image, Grid, Icon} from 'semantic-ui-react'
 import {connect} from 'react-redux'
-import {searchFriends, requestFriendship, acceptFriend, getFriendRequests, getFriends, removeFriend} from '../actions/network'
+import {searchFriends, requestFriendship, acceptFriend, getFriendRequests, getFriends, removeFriend, getPendingFriends} from '../actions/network'
 import WithAuth from './WithAuth'
 
 class Friends extends React.Component{
@@ -14,6 +14,7 @@ class Friends extends React.Component{
         if(prevProps.user !== this.props.user){
             this.props.getFriends(this.props.user.id)
             this.props.getFriendRequests(this.props.user.id)
+            this.props.getPendingFriends(this.props.user.id)
         }
     }
 
@@ -48,12 +49,15 @@ class Friends extends React.Component{
                     <Card.Content>
                         <Card.Header>{user.first_name + ' ' + user.last_name}</Card.Header>
                     </Card.Content>
-                    <Card.Content extra>
+                    <Card.Content extra><span>
                     {this.props.friends.some(u => u.id === user.id) ? 
                         <Button onClick={()=>this.handleRemoveFriend(user.id)}><Icon name='remove user'/>Remove</Button>
+                        : this.props.pendingFriends.some(u => u.id === user.id) ?
+                        <Button disabled>Request Sent</Button>
                         :
                         <Button onClick={()=>this.handleAddFriend(user.id)}><Icon name='add user'/>Add</Button>
                     }
+                    </span>
                     </Card.Content>
                 </Card>
             </Grid.Column>
@@ -106,7 +110,8 @@ const mapStateToProps=state=>{
         searchResults: state.network.searchResults,
         user: state.user.currentUser,
         friendRequests: state.network.friendRequests,
-        friends: state.network.friends
+        friends: state.network.friends,
+        pendingFriends: state.network.pendingFriends
     }
 }
 
@@ -117,6 +122,7 @@ const mapDispatchToProps=dispatch=>{
         acceptFriend: (userId,friendId)=> dispatch(acceptFriend(userId,friendId)),
         getFriendRequests: userId=>dispatch(getFriendRequests(userId)),
         getFriends: userId=> dispatch(getFriends(userId)),
+        getPendingFriends: userId=> dispatch(getPendingFriends(userId)),
         removeFriend: (userId,friendId) => dispatch(removeFriend(userId, friendId))
     }
 }
