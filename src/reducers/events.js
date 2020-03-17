@@ -1,5 +1,7 @@
 const events = (state={
         usersEvents: [],
+        friendsEvents:[],
+        joinedEvents: [],
         clickedEvent:[], 
         showEvent: false, 
         editEvent: false
@@ -38,6 +40,16 @@ const events = (state={
                     return {...state,
                         editEvent: false,
                         showEvent: false,
+                    }
+                case 'SET_FRIENDS':
+                    let events=action.users.map(user=>user.events).flat()
+                    return {...state,
+                        friendsEvents: events
+                    }
+                case 'ADD_JOINED_EVENT':
+                    let event=state.friendsEvents.find(event => event.id===action.eventId)
+                    return{...state,
+                        joinedEvents: [...state.joinedEvents, event]
                     }
                 default:
                     return state

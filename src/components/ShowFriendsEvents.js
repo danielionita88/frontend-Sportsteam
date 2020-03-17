@@ -1,12 +1,17 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {getFriends} from '../actions/network'
+import{joinEvent} from '../actions/events'
 import {Segment, Button} from 'semantic-ui-react'
 
 class ShowFriendsEvents extends React.Component{
 
+    joinEvent=(eventId)=>{
+        this.props.joinEvent(eventId,this.props.user.id)
+    }
+
     renderFriendsEvents=()=>{
-        let events = this.props.friends.map(friend =>friend.events).flat().reverse()
+        let events = this.props.friendsEvents.reverse()
         return events.map(event => {
         let user = this.props.friends.find(user => user.id === event.user_id)
         return<Segment key={event.id}>
@@ -15,7 +20,8 @@ class ShowFriendsEvents extends React.Component{
             <p>Location: {event.location}</p>
             <p>Date/Hour: {event.date} at {event.time}</p>
             <p>Details: {event.details}</p>
-            <Button>Join</Button> <Button> Comment </Button>
+            <Button onClick={()=>this.joinEvent(event.id)}>Join</Button> 
+            <Button> Comment </Button>
         </Segment>})
     }
 
@@ -27,13 +33,16 @@ class ShowFriendsEvents extends React.Component{
 }
 const mapStateToProps=state=>{
     return {
-        friends: state.network.friends
+        user: state.user.currentUser,
+        friends: state.network.friends,
+        friendsEvents: state.events.friendsEvents
     }
 }
 
 const mapDispatchToProps = dispatch=>{
     return {
-        getFriends: userId => dispatch(getFriends(userId))
+        getFriends: userId => dispatch(getFriends(userId)),
+        joinEvent: (eventId,userId) => dispatch(joinEvent(eventId,userId))
     }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(ShowFriendsEvents)

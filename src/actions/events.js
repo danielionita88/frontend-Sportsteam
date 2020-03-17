@@ -100,3 +100,34 @@ export const updateEvent=(event, eventId)=>{
         })
     }
 }
+
+const addJoinedEvent=eventId=>{
+    return{type: 'ADD_JOINED_EVENT', eventId}
+}
+
+export const joinEvent=(eventId, userId)=>{
+    return (dispatch)=>{
+        const reqObj={
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                event_id: eventId,
+                user_id: userId
+            })
+        }
+
+        fetch('http://localhost:3000/user_events', reqObj)
+        .then(resp => resp.json())
+        .then(data => {
+            if (data.message){
+                alert(data.message)
+            }
+            else{
+                dispatch(addJoinedEvent(eventId))
+            }
+        })
+    }
+}
